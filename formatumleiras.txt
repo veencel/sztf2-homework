@@ -1,0 +1,27 @@
+Termékek beolvasása
+
+A termékeket a program egy products.txt nevű UTF-8 kódolású szöveges fájlból olvassa be, amit a futtatható állománnyal megegyező mappában keres.
+A fájlban üres sorokkal elválasztva a következő formátumban várja a program a termékek:
+<TERMÉK NEVE>
+<TERMÉK CIKKSZÁMA>
+<TERMÉK ÁRA>
+<TERMÉK DARABSZÁMA>
+<TERMÉK LEJÁRAI IDEJE (NAPOK SZÁMA)>
+
+
+Szolgáltatások beolvasása
+
+A szolgáltatásokat a program egy services.txt nevű UTF-8 kódolású szöveges fájlból olvassa be, amit a futtatható állománnyal megegyező mappában keres.
+A fájlban üres sorokkal elválasztva a következő formátumban várja a program a szolgáltatásokat:
+<SZOLGÁLTATÁS NEVE>
+<SZOLGÁLTATÁS CIKKSZÁMA>
+<SZOLGÁLTATÁS ÁRA>
+
+
+Megrendelők beolvasása
+
+A megrendelőket a program egy customers.txt nevű UTF-8 kódolású szöveges fájlból olvassa be, amit a futtatható állománnyal megegyező mappában keres.
+A fájlban üres sorokkal elválasztva a következő formátumban várja a program a megrendelőket:
+<MEGRENDELŐ NEVE>
+<MEGRENDELŐ AZONOSíTÓJA>
+<MEGRENDELŐ ÉRTÉKELÉLSE (min:1|max:5|egész szám)>
