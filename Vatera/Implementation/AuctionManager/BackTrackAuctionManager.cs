@@ -22,11 +22,11 @@ namespace Vatera.Implementation.AuctionManager
             {
                 if (i == 0)
                 {
-                    temp.Insert(product.Orders.Get(level));
+                    temp.Insert(product.Orders.Get(level - 1));
                 }
                 else
                 {
-                    temp.Remove(product.Orders.Get(level));
+                    temp.Remove(product.Orders.Get(level - 1));
                 }
 
                 if (_isPossibleSolution(level, temp, product))
