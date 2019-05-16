@@ -1,6 +1,6 @@
 ﻿namespace Vatera.Models
 {
-    class Customer
+    public class Customer
     {
         public string Name { get; }
         public string Identifier { get; }

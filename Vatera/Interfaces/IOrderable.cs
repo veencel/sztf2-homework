@@ -2,7 +2,7 @@
 
 namespace Vatera.Interfaces
 {
-    interface IOrderable
+    public interface IOrderable
     {
         int Price { get; }
 

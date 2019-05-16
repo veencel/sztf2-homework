@@ -3,7 +3,7 @@ using Vatera.Interfaces;
 
 namespace Vatera.Models
 {
-    class Order
+    public class Order
     {
         public Customer Customer { get; }
         public WeakReference<IOrderable> Orderable { get; }

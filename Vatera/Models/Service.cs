@@ -2,7 +2,7 @@
 
 namespace Vatera.Models
 {
-    class Service: IOrderable
+    public class Service: IOrderable
     {
         public int Price { get; }
 

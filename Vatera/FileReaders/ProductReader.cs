@@ -3,7 +3,7 @@ using Vatera.Models;
 
 namespace Vatera.FileReaders
 {
-    class ProductReader
+    public class ProductReader
     {
         public static Product[] Read(string path)
         {

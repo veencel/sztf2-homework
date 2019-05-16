@@ -3,7 +3,7 @@ using Vatera.Interfaces;
 
 namespace Vatera.Models
 {
-    class Product: IOrderableWithCount, IExpiringOrderable
+    public class Product: IOrderableWithCount, IExpiringOrderable
     {
         public int Price { get; }
         public string Identifier { get; }
