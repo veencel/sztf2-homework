@@ -50,6 +50,7 @@
     <Compile Include="FileReaders\ServiceReader.cs" />
     <Compile Include="Filters\FailedOrderFilter.cs" />
     <Compile Include="Implementation\AuctionManager\BacktrackAuctionManager.cs" />
+    <Compile Include="Implementation\AuctionManager\BruteForceAuctionManager.cs" />
     <Compile Include="Implementation\AuctionManager\GreedyAuctionManager.cs" />
     <Compile Include="Implementation\BinarySearchTreeOrderableStore.cs" />
     <Compile Include="Implementation\LinkedListOrderStore.cs" />
