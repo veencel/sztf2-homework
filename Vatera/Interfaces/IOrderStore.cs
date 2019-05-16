@@ -7,6 +7,7 @@ namespace Vatera.Interfaces
     public interface IOrderStore: IEnumerable<Order>
     {
         int Count { get; }
+        bool IsNotEmpty { get; }
 
         void Insert(Order order);
 

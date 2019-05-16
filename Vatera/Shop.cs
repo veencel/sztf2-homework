@@ -72,7 +72,7 @@ namespace Vatera
 
             foreach (var orderable in Orderables.ToArray())
             {
-                if (orderable is Product product && product.DaysToExpire == Day)
+                if (orderable is Product product && product.DaysToExpire == Day && product.Orders.IsNotEmpty)
                 {
                     try
                     {
