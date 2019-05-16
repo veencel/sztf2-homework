@@ -22,16 +22,16 @@ namespace Vatera.Implementation.AuctionManager
             {
                 if (i == 0)
                 {
-                    temp.Insert(product.Orders.Get(level));
+                    temp.Insert(product.Orders.Get(level - 1));
                 }
                 else
                 {
-                    temp.Remove(product.Orders.Get(level));
+                    temp.Remove(product.Orders.Get(level - 1));
                 }
 
                 if (_isPossibleSolution(level, temp, product))
                 {
-                    if (level == product.Count)
+                    if (level == product.Orders.Count)
                     {
                         if (temp.Sum(order => order.Customer.Rating) > successfulOrders.Sum(order => order.Customer.Rating))
                         {
@@ -61,7 +61,7 @@ namespace Vatera.Implementation.AuctionManager
         {
             int result = 0;
 
-            for (int i = level + 1; i < product.Count; ++i)
+            for (int i = level; i < product.Orders.Count; ++i)
             {
                 var order = product.Orders.Get(i);
 
