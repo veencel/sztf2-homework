@@ -21,7 +21,7 @@ namespace Vatera.Implementation.AuctionManager
             IOrderStore failedOrders = new LinkedListOrderStore();
             int count = 0;
 
-            foreach (var order in product.Orders)
+            foreach (var order in sortedOrders)
             {
                 if (count + order.Count <= product.Count)
                 {
