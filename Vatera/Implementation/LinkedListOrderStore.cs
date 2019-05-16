@@ -1,18 +1,33 @@
-﻿using Vatera.Interfaces;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Vatera.Interfaces;
 using Vatera.Models;
 
 namespace Vatera.Implementation
 {
-    class LinkedListOrderStore: IOrderStore
+    public class LinkedListOrderStore: IOrderStore
     {
         internal class Node
         {
             public Order Value;
-            public Node Previous;
             public Node Next;
         }
 
         private Node _head;
+
+        public LinkedListOrderStore()
+        {
+            //
+        }
+
+        public LinkedListOrderStore(IOrderStore orders)
+        {
+            foreach (var order in orders)
+            {
+                Insert(order);
+            }
+        }
 
         public int Count
         {
@@ -20,13 +35,9 @@ namespace Vatera.Implementation
             {
                 int count = 0;
 
-                Node temp = _head;
-
-                while (temp != null)
+                foreach (var order in this)
                 {
-                    count++;
-
-                    temp = temp.Next;
+                    ++count;
                 }
 
                 return count;
@@ -47,53 +58,126 @@ namespace Vatera.Implementation
                 Node lastNode = GetLastNode();
 
                 lastNode.Next = newNode;
-                newNode.Previous = lastNode;
             }
         }
 
-        public Order[][] GroupByRating()
+        public void SortedInsert(Order order, Func<Order, Order, bool> sorter)
         {
-            Order[][] orders = new Order[6][];
+            Node newNode = new Node();
+            newNode.Value = order;
 
-            for (int i = 1; i <= 5; i++)
+            Node dummy = new Node();
+            Node current = dummy;
+            dummy.Next = _head;
+
+            while (current.Next != null && sorter(newNode.Value, current.Next.Value))
             {
-                orders[i] = FilterByRating(i);
+                current = current.Next;
             }
 
-            return orders;
+            newNode.Next = current.Next;
+            current.Next = newNode;
+
+            _head = current.Next;
         }
 
-        private Order[] FilterByRating(int rating)
+        public Order Get(int index)
         {
-            int count = 0;
+            int i = 0;
+            foreach (var order in this)
+            {
+                if (i++ == index)
+                {
+                    return order;
+                }
+            }
+
+            return null;
+        }
+
+        public void Remove(Order order)
+        {
+            Node temp = _head;
+            Node slow = null;
+
+            while (temp != null && temp.Value != order)
+            {
+                slow = temp;
+                temp = temp.Next;
+            }
+
+            if (temp == null)
+            {
+                return;
+            }
+
+            if (slow == null)
+            {
+                _head = _head.Next;
+            }
+            else
+            {
+                slow.Next = temp.Next;
+            }
+        }
+
+        public int Sum(Func<Order, int> valueRetriever)
+        {
+            int sum = 0;
+
+            foreach (var order in this)
+            {
+                sum += valueRetriever(order);
+            }
+
+            return sum;
+        }
+
+        public bool Contains(Order searchedOrder)
+        {
+            foreach (var order in this)
+            {
+                if (order == searchedOrder)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public LinkedListOrderStore Sorted(Func<Order, Order, bool> sorter)
+        {
+            LinkedListOrderStore sorted = new LinkedListOrderStore();
+
+            foreach (var order in this)
+            {
+                sorted.SortedInsert(order, sorter);
+            }
+
+            return sorted;
+        }
+
+        IOrderStore IOrderStore.Sorted(Func<Order, Order, bool> sorter)
+        {
+            return this.Sorted(sorter);
+        }
+
+        public IEnumerator<Order> GetEnumerator()
+        {
             Node temp = _head;
 
             while (temp != null)
             {
-                if (temp.Value.Customer.Rating == rating)
-                {
-                    count++;
-                }
+                yield return temp.Value;
 
                 temp = temp.Next;
             }
+        }
 
-            Order[] orders = new Order[count];
-
-            count = 0;
-            temp = _head;
-
-            while (temp != null)
-            {
-                if (temp.Value.Customer.Rating == rating)
-                {
-                    orders[count++] = temp.Value;
-                }
-
-                temp = temp.Next;
-            }
-
-            return orders;
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         private Node GetLastNode()
