@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vatera", "Vatera\Vatera.csproj", "{A419EA23-1986-4A2F-BEEA-AF9BF1EABAD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VateraTest", "VateraTest\VateraTest.csproj", "{81F69BAD-C71B-4B33-BFA7-8D6B34B2D0EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A419EA23-1986-4A2F-BEEA-AF9BF1EABAD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A419EA23-1986-4A2F-BEEA-AF9BF1EABAD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A419EA23-1986-4A2F-BEEA-AF9BF1EABAD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F69BAD-C71B-4B33-BFA7-8D6B34B2D0EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F69BAD-C71B-4B33-BFA7-8D6B34B2D0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F69BAD-C71B-4B33-BFA7-8D6B34B2D0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F69BAD-C71B-4B33-BFA7-8D6B34B2D0EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
