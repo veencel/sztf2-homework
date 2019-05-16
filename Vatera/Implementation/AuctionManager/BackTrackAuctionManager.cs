@@ -29,7 +29,7 @@ namespace Vatera.Implementation.AuctionManager
                     temp.Remove(product.Orders.Get(level - 1));
                 }
 
-                if (_isPossibleSolution(level, temp, product))
+                if (_isPossibleSolution(temp, product))
                 {
                     if (level == product.Orders.Count)
                     {
@@ -46,7 +46,7 @@ namespace Vatera.Implementation.AuctionManager
             }
         }
 
-        private bool _isPossibleSolution(int level, IOrderStore orders, Product product)
+        private bool _isPossibleSolution(IOrderStore orders, Product product)
         {
             return orders.Sum(order => order.Count) <= product.Count;
         }
