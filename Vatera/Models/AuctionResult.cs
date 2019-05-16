@@ -1,17 +1,34 @@
-﻿namespace Vatera.Models
-{
-    class AuctionResult
-    {
-        public Product Product;
-        public Order[] SuccessfulOrders;
-        public Order[] FailedOrders;
-        public bool CouldNotSellAll = false;
+﻿using Vatera.Interfaces;
 
-        public AuctionResult(Product product, Order[] successfulOrders, Order[] failedOrders)
+namespace Vatera.Models
+{
+    public class AuctionResult
+    {
+        public readonly Product Product;
+        public readonly IOrderStore SuccessfulOrders;
+        public readonly IOrderStore FailedOrders;
+        public readonly bool CouldNotSellAll;
+
+        public AuctionResult(Product product, IOrderStore successfulOrders, IOrderStore failedOrders)
         {
             Product = product;
+
             SuccessfulOrders = successfulOrders;
             FailedOrders = failedOrders;
+
+            CouldNotSellAll = Product.Count > SumSuccessfulOrders();
+        }
+
+        private int SumSuccessfulOrders()
+        {
+            int sum = 0;
+
+            foreach (var order in SuccessfulOrders)
+            {
+                sum += order.Count;
+            }
+
+            return sum;
         }
     }
 }

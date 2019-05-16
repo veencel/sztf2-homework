@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Vatera.Exceptions;
 using Vatera.Interfaces;
 using Vatera.Models;
@@ -11,6 +9,7 @@ namespace Vatera
 
     class Shop
     {
+        private readonly IAuctionManager _auctionManager;
         private event ShopEventHandler OrderCompleted;
         private event ShopEventHandler OrderFailed;
 
@@ -19,10 +18,11 @@ namespace Vatera
         public IOrderableStore Orderables { get; }
         public Customer[] Customers { get; }
 
-        public Shop(IOrderableStore orderables, Customer[] customers)
+        public Shop(IOrderableStore orderables, Customer[] customers, IAuctionManager auctionManager)
         {
             Orderables = orderables;
             Customers = customers;
+            _auctionManager = auctionManager;
         }
 
         public void Order(Customer customer, IOrderable orderable)
@@ -67,6 +67,7 @@ namespace Vatera
         public AuctionResult[] GoToNextDay()
         {
             Day += 1;
+
             List<AuctionResult> results = new List<AuctionResult>();
 
             foreach (var orderable in Orderables.ToArray())
@@ -75,7 +76,7 @@ namespace Vatera
                 {
                     try
                     {
-                        var result = FinishAuction(product);
+                        var result = _finishAuction(product);
                         results.Add(result);
                     }
                     catch (CouldNotSellAll exception)
@@ -88,52 +89,34 @@ namespace Vatera
             return results.ToArray();
         }
 
+        private AuctionResult _finishAuction(Product product)
+        {
+            var result = _auctionManager.FinishAuction(product);
+
+            foreach (var order in result.SuccessfulOrders)
+            {
+                OrderCompleted(order);
+            }
+
+            foreach (var order in result.FailedOrders)
+            {
+                OrderFailed(order);
+            }
+
+            if (result.CouldNotSellAll)
+            {
+                throw new CouldNotSellAll(result);
+            }
+
+            return result;
+        }
+
         private void GuardExpiring(IOrderable orderable)
         {
             if (orderable is IExpiringOrderable expiringOrderable && expiringOrderable.DaysToExpire < Day)
             {
                 throw new OrderableExpired(expiringOrderable);
             }
-        }
-
-        private AuctionResult FinishAuction(Product product)
-        {
-            Order[][] orders = product.Orders.GroupByRating();
-
-            List<Order> successfulOrders = new List<Order>();
-            List<Order> failedOrders = new List<Order>();
-
-            int count = product.Count;
-
-            for (int i = 5; i >= 1; i--)
-            {
-                Array.Sort(orders[i], (Order order, Order otherOrder) => otherOrder.Count - order.Count);
-
-                foreach (var order in orders[i])
-                {
-                    if (count == 0)
-                    {
-                        failedOrders.Add(order);
-                        OrderFailed(order);
-                    }
-                    else if (count - order.Count >= 0)
-                    {
-                        count -= order.Count;
-
-                        successfulOrders.Add(order);
-                        OrderCompleted(order);
-                    }
-                }
-            }
-
-            var result = new AuctionResult(product, successfulOrders.ToArray(), failedOrders.ToArray());
-
-            if (count > 0)
-            {
-                throw new CouldNotSellAll(result);
-            }
-
-            return result;
         }
     }
 }

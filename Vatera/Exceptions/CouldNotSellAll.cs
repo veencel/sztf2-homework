@@ -10,7 +10,6 @@ namespace Vatera.Exceptions
         public CouldNotSellAll(AuctionResult result)
         {
             Result = result;
-            Result.CouldNotSellAll = true;
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     interface IOrderableStore
     {
+        int Count { get; }
+
         void Insert(IOrderable orderable);
 
         IOrderable BinarySearch(string Identifier);

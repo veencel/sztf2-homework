@@ -1,6 +1,7 @@
 ﻿using System;
 using Vatera.FileReaders;
 using Vatera.Implementation;
+using Vatera.Implementation.AuctionManager;
 using Vatera.Interfaces;
 using Vatera.Models;
 
@@ -10,7 +11,7 @@ namespace Vatera
     {
         static void Main(string[] args)
         {               
-            Shop shop = new Shop(LoadOrderables(), LoadCustomers());
+            Shop shop = new Shop(LoadOrderables(), LoadCustomers(), new GreedyAuctionManager());
 
             ShopConsoleInterface consoleInterface = new ShopConsoleInterface(shop);
 
