@@ -44,6 +44,8 @@ namespace Vatera.Implementation
             }
         }
 
+        public bool IsNotEmpty => Count > 0;
+
         public void Insert(Order order)
         {
             Node newNode = new Node();
@@ -66,19 +68,30 @@ namespace Vatera.Implementation
             Node newNode = new Node();
             newNode.Value = order;
 
-            Node dummy = new Node();
-            Node current = dummy;
-            dummy.Next = _head;
-
-            while (current.Next != null && sorter(newNode.Value, current.Next.Value))
+            if (_head == null)
             {
+                _head = newNode;
+                return;
+            }
+
+            Node previous = null;
+            Node current = _head;
+
+            while (current != null && !sorter(newNode.Value, current.Value))
+            {
+                previous = current;
                 current = current.Next;
             }
 
-            newNode.Next = current.Next;
-            current.Next = newNode;
+            if (previous == null)
+            {
+                newNode.Next = _head;
+                _head = newNode;
+                return;
+            }
 
-            _head = current.Next;
+            newNode.Next = current;
+            previous.Next = newNode;
         }
 
         public Order Get(int index)
